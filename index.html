@@ -1,30 +1,48 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Launching bKash...</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const uuid = params.get("uuid") || "demo";
-      const c = params.get("c") || "savings";
-      const httpsLink = `https://bka.sh/next?uuid=${uuid}&c=${c}`;
+<head>
+  <title>Open bKash App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    .prompt {
+      display: none;
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    const ua = navigator.userAgent.toLowerCase();
+    const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
 
-      // Detect in-app browser like Facebook or Messenger
-      const ua = navigator.userAgent.toLowerCase();
-      const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
+    const params = new URLSearchParams(window.location.search);
+    const uuid = params.get("uuid") || "demo123";
+    const c = params.get("c") || "savings";
+    const bkashURL = `https://bka.sh/next?uuid=${uuid}&c=${c}`;
 
-      if (isFacebook) {
-        alert("To continue, please tap the three dots (•••) in the corner and choose 'Open in browser'.");
-      }
-
-      // Redirect to bKash link after a delay
-      setTimeout(() => {
-        window.location.href = httpsLink;
-      }, 1000);
-    </script>
-  </head>
-  <body>
-    <p>Launching the bKash app...</p>
-  </body>
+    if (isFacebook) {
+      // Show manual open prompt
+      window.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('.prompt').style.display = 'block';
+      });
+    } else {
+      // Redirect directly
+      window.location.href = bkashURL;
+    }
+  </script>
+</head>
+<body>
+  <p class="prompt">
+    ⚠️ Please tap the ••• menu and choose “Open in browser” to continue.
+  </p>
+  <p>If nothing happens, <a id="fallbackLink" href="#">click here</a>.</p>
+  <script>
+    document.getElementById("fallbackLink").href = `https://bka.sh/next?uuid=${new URLSearchParams(window.location.search).get("uuid") || "demo123"}&c=${new URLSearchParams(window.location.search).get("c") || "savings"}`;
+  </script>
+</body>
 </html>
