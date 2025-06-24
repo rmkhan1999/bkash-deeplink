@@ -10,15 +10,15 @@
       const c = params.get("c") || "savings";
       const httpsLink = `https://bka.sh/next?uuid=${uuid}&c=${c}`;
 
-      // If inside Facebook, try to open in Safari/Chrome
+      // Detect in-app browser like Facebook or Messenger
       const ua = navigator.userAgent.toLowerCase();
       const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
 
       if (isFacebook) {
-        alert("Please click the three dots ••• and choose 'Open in browser' for the best experience.");
+        alert("To continue, please tap the three dots (•••) in the corner and choose 'Open in browser'.");
       }
 
-      // Always redirect after short delay
+      // Redirect to bKash link after a delay
       setTimeout(() => {
         window.location.href = httpsLink;
       }, 1000);
