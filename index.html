@@ -1,46 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Open bKash App</title>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to bKash...</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background-color: #f2f2f2;
+      color: #222;
       text-align: center;
-      padding: 2rem;
+      padding: 3rem 1rem;
     }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 1.5rem;
+    }
+
     .prompt {
       display: none;
-      color: red;
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      border: 1px solid #ffeeba;
+      font-weight: 500;
+    }
+
+    .link-box {
+      margin-top: 1rem;
+    }
+
+    .link-box a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #d90064;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
       font-weight: bold;
     }
+
+    .link-box a:hover {
+      background-color: #b00050;
+    }
   </style>
+</head>
+<body>
+  <img src="https://www.bkash.com/themes/custom/bkash/logo.svg" alt="bKash Logo" class="logo" />
+
+  <div class="prompt">
+    ⚠️ You’re using Facebook or Messenger.<br />
+    Tap the ••• menu and choose <strong>“Open in browser”</strong> to continue.
+  </div>
+
+  <p>If nothing happens automatically, you can tap the button below:</p>
+
+  <div class="link-box">
+    <a id="fallbackLink" href="https://bka.sh/next?uuid=xyz&c=savings">Open bKash App</a>
+  </div>
+
   <script>
     const ua = navigator.userAgent.toLowerCase();
     const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
 
-    const bkashURL = "https://bka.sh/next";
+    const bkashURL = "https://bka.sh/next?uuid=xyz&c=savings";
 
     if (isFacebook) {
-      // Show prompt for manual open
-      window.addEventListener('DOMContentLoaded', () => {
-        document.querySelector('.prompt').style.display = 'block';
-        document.getElementById("fallbackLink").href = bkashURL;
-      });
+      document.querySelector(".prompt").style.display = "block";
     } else {
-      // Direct redirect if not Facebook/Messenger
+      // Automatically redirect if not inside FB/Messenger
       window.location.href = bkashURL;
     }
+
+    // Fallback link already set above
   </script>
-</head>
-<body>
-  <p class="prompt">
-    ⚠️ You’re using Facebook or Messenger.<br />
-    Tap the ••• menu and choose “Open in browser” to continue.
-  </p>
-  <p>
-    If nothing happens, <a id="fallbackLink" href="#">click here</a>.
-  </p>
 </body>
 </html>
