@@ -20,29 +20,27 @@
     const ua = navigator.userAgent.toLowerCase();
     const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
 
-    const params = new URLSearchParams(window.location.search);
-    const uuid = params.get("uuid") || "demo123";
-    const c = params.get("c") || "savings";
-    const bkashURL = `https://bka.sh/next?uuid=${uuid}&c=${c}`;
+    const bkashURL = "https://bka.sh/next";
 
     if (isFacebook) {
-      // Show manual open prompt
+      // Show prompt for manual open
       window.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.prompt').style.display = 'block';
+        document.getElementById("fallbackLink").href = bkashURL;
       });
     } else {
-      // Redirect directly
+      // Direct redirect if not Facebook/Messenger
       window.location.href = bkashURL;
     }
   </script>
 </head>
 <body>
   <p class="prompt">
-    ⚠️ Please tap the ••• menu and choose “Open in browser” to continue.
+    ⚠️ You’re using Facebook or Messenger.<br />
+    Tap the ••• menu and choose “Open in browser” to continue.
   </p>
-  <p>If nothing happens, <a id="fallbackLink" href="#">click here</a>.</p>
-  <script>
-    document.getElementById("fallbackLink").href = `https://bka.sh/next?uuid=${new URLSearchParams(window.location.search).get("uuid") || "demo123"}&c=${new URLSearchParams(window.location.search).get("c") || "savings"}`;
-  </script>
+  <p>
+    If nothing happens, <a id="fallbackLink" href="#">click here</a>.
+  </p>
 </body>
 </html>
