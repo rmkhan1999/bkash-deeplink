@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting to bKash App...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const uuid = params.get("uuid");
+    const c = params.get("c");
+
+    // If parameters are provided, build deep link with them
+    let deepLink = "bkash://next";
+    if (uuid && c) {
+      deepLink += `?uuid=${uuid}&c=${c}`;
+    }
+
+    const fallbackAndroid = "https://play.google.com/store/apps/details?id=com.bkash.payment";
+    const fallbackiOS = "https://apps.apple.com/app/id146601393482893187"; // Replace with actual ID
+
+    // After short delay, fallback to store if app didn't open
+    setTimeout(() => {
+      const isAndroid = /android/i.test(navigator.userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isAndroid) {
+        window.location.href = fallbackAndroid;
+      } else if (isIOS) {
+        window.location.href = fallbackiOS;
+      } else {
+        window.location.href = "https://www.bkash.com";
+      }
+    }, 1500);
+
+    // Try to open the app
+    window.location.href = deepLink;
+  </script>
+</head>
+<body>
+  <p>Redirecting to the bKash App...</p>
+</body>
+</html>
