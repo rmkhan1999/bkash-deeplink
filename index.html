@@ -1,41 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Redirecting to bKash App...</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const uuid = params.get("uuid");
-    const c = params.get("c");
+  <head>
+    <title>Launching bKash...</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const uuid = params.get("uuid") || "demo";
+      const c = params.get("c") || "savings";
+      const httpsLink = `https://bka.sh/next?uuid=${uuid}&c=${c}`;
 
-    // If parameters are provided, build deep link with them
-    let deepLink = "bkash://next";
-    if (uuid && c) {
-      deepLink += `?uuid=${uuid}&c=${c}`;
-    }
+      // If inside Facebook, try to open in Safari/Chrome
+      const ua = navigator.userAgent.toLowerCase();
+      const isFacebook = ua.includes("fbav") || ua.includes("fbios") || ua.includes("messenger");
 
-    const fallbackAndroid = "https://play.google.com/store/apps/details?id=com.bkash.payment";
-    const fallbackiOS = "https://apps.apple.com/app/id146601393482893187"; // Replace with actual ID
-
-    // After short delay, fallback to store if app didn't open
-    setTimeout(() => {
-      const isAndroid = /android/i.test(navigator.userAgent);
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-      if (isAndroid) {
-        window.location.href = fallbackAndroid;
-      } else if (isIOS) {
-        window.location.href = fallbackiOS;
-      } else {
-        window.location.href = "https://www.bkash.com";
+      if (isFacebook) {
+        alert("Please click the three dots ••• and choose 'Open in browser' for the best experience.");
       }
-    }, 1500);
 
-    // Try to open the app
-    window.location.href = deepLink;
-  </script>
-</head>
-<body>
-  <p>Redirecting to the bKash App...</p>
-</body>
+      // Always redirect after short delay
+      setTimeout(() => {
+        window.location.href = httpsLink;
+      }, 1000);
+    </script>
+  </head>
+  <body>
+    <p>Launching the bKash app...</p>
+  </body>
 </html>
